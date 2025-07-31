@@ -68,7 +68,7 @@ function AddNewForm({recipes, setRecipes}) {
     return(
 
        <>
-            <Link to="/recipeList" className="btn btn-outline-secondary btn-sm m-3"
+            <Link to="/recipeList" className="btn btn-outline-secondary btn-sm m-5"
                 onClick={(e) => {
                 e.preventDefault();
                 toast.info("Returning to recipe list...");
