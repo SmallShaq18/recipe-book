@@ -1,0 +1,88 @@
+body, .bg-dark, .bg-light {
+  transition: all 0.3s ease; overflow-x: hidden;
+}
+
+/*RECIPELIST PAGE*/
+
+.recipelist-body, .recipedeets-body, .addnew-body{
+  overflow-x: hidden;
+}
+.imgg{
+  border-radius: 10px; height: 200px !important; object-fit: cover !important;
+}
+.inputt{
+  width: 50%; border-radius: 5px; border: 1px solid black;
+}
+form .fa-solid, .respon .fas{
+  font-size: 30px;
+}
+form .fas div{
+  display: none;
+}
+
+.dropdown-menuu{
+  display: none; position: absolute; z-index: 1; background: #f9f9f9; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.dropdown:hover .dropdown-menuu{
+  display: block;
+}
+.dropdown-itemm:hover {
+  background-color: #ffc107; color: #fff !important; border-radius: 4px;
+}
+.card:hover {
+  transform: scale(1.02);
+  transition: 0.3s ease;
+  /*box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);*/
+}
+
+
+/*RECIPEDETAILSPAGE*/
+
+.img-deets{
+  border-radius: 10px;
+}
+.row-deets{
+  background: rgb(250, 241, 208); padding: 3rem;
+}
+.width{
+  width: 100vw;
+}
+.p-left{
+  padding-left: 5% !important;
+}
+
+/*ADDNEWPAGE*/
+
+.addnew-form{
+  width: 80vw;
+}
+
+
+
+
+
+
+
+@media screen and (max-width: 720px) {
+  
+  .header-row {
+    position: fixed !important;
+    top: 0;
+    left: 0; z-index: 1000;
+  }
+  body, .recipelist-body, .recipedeets-body, .addnew-body {
+    padding-top: 60px;
+  }
+  .navv{
+    width: 100% !important;
+  }
+  .respon{
+      padding-left: 10% !important; padding-right: 10% !important;
+  }
+  .row-deets{
+    padding: 2% !important;
+  }
+  .card{
+    width:85% !important;
+  }
+}
