@@ -51,7 +51,7 @@ export default function App() {
     <div className={darkMode ? "bg-dark text-light min-vh-100" : "bg-light text-dark min-vh-100"}>
     <Routes>
       <Route path="/" element={<Layout toggleDarkMode={toggleDarkMode} darkMode={darkMode} />}>
-        <Route index element={<Home />} />
+        <Route index element={<Home darkMode={darkMode} />} />
         <Route path="recipeList" element={<RecipeListApp recipes={recipes} setRecipes={setRecipes} />} />
         <Route path="recipeDetails/:recipeId" element={<RecipeDetails recipes={recipes}  />} />
         <Route path="addNew" element={<AddNewRecipe recipes={recipes} setRecipes={setRecipes} />} />

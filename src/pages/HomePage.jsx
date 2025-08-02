@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //import './App.css'; // new CSS file for styling
 
-export default function HomePage() {
+export default function HomePage({ darkMode }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="hero-wrapper d-flex justify-content-center align-items-center text-center" >
+    <div className={`hero-wrapper d-flex justify-content-center align-items-center text-center ${darkMode ? 'dark' : ''}`}>
       <div className={`hero-content p-4 rounded-4 shadow-lg bg-white ${loaded ? 'animate' : ''}`}>
         <h1 className="mb-3 fw-bold text-warning-emphasis animated-text">🍳 Welcome to Shaq’s Recipe Book!</h1>
         <h5 className="mb-4 text-secondary">
