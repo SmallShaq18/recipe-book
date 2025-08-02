@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {useNavigate} from 'react-router-dom';
+import {useParams, useNavigate, Link} from 'react-router-dom';
 import { toast } from 'react-toastify';
 //import {RECIPES} from '../data.js';
 //import Layout from './Layout';
@@ -71,9 +70,36 @@ function EditRecipeForm({recipes, setRecipes}) {
             navigate('/recipeList');
         }
       }
+
+      const MAX_IMAGE_SIZE = 500 * 1024; // 500KB
+const  handleImageUpload = (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  if (file.size > MAX_IMAGE_SIZE) {
+    alert("Image is too large. Please select one smaller than 500KB.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    const base64String = reader.result;
+    setPicVal(base64String); // this will update your `pic` field in JSON
+  };
+  reader.readAsDataURL(file);
+};
     
     return(
 
+        <>
+        <Link to="/recipeList" className="btn btn-outline-secondary btn-sm mt-5 ms-2"
+                onClick={(e) => {
+                e.preventDefault();
+                toast.info("Returning to recipe list...");
+                setTimeout(() => { navigate('/recipeList'); }, 1000); // 1 second delay for the toast to show
+              }}>
+                ← Back to List
+            </Link>
         <div className="d-flex justify-content-center align-items-center">
             <form className="addnew-form">
 
@@ -122,8 +148,14 @@ function EditRecipeForm({recipes, setRecipes}) {
                 <div className="form-group row p-3">
                     <label className=" col-sm-3">Recipe Image:</label>
                     <div className="col-sm-9">
-                        <input type="name" value={picVal} className="form-control" id="pic" 
-                        onChange={(e) => setPicVal(e.target.value)} placeholder="ex: https://pixaby.com/coconut-rice/" />
+                        {picVal && (
+  <div className="mb-3">
+    <label className="form-label text-muted">(Current Picture)</label>
+    <img src={picVal} alt="Recipe Preview" style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }} />
+  </div>
+)}
+                        <input type="file" accept="image/*" className="form-control" id="pic" 
+                        onChange={handleImageUpload} />
                     </div>
                 </div>
                 <div className="form-group row p-3">
@@ -145,6 +177,7 @@ function EditRecipeForm({recipes, setRecipes}) {
 
             </form>
         </div>
+        </>
     );
 
 }

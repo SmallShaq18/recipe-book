@@ -2,6 +2,28 @@ body, .bg-dark, .bg-light {
   transition: all 0.3s ease; overflow-x: hidden;
 }
 
+/*HOMEPAGE*/
+.hero-wrapper { min-height: 100vh; padding: 2rem; background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c') center/cover no-repeat;
+/*backdrop-filter: blur(0.1px); position: relative;*/
+}
+.hero-wrapper::before { content: ''; position: absolute; inset: 0; background-color: rgba(255, 255, 255, 0.363); /* white overlay */
+  z-index: 1;
+}
+.hero-content { position: relative; z-index: 2; max-width: 600px; opacity: 0; transform: translateY(30px);
+  transition: all 0.6s ease-in-out;
+}
+.hero-content.animate { opacity: 1; transform: translateY(0);
+}
+.animated-text {
+  animation: popIn 1s ease-out forwards;
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+
 /*RECIPELIST PAGE*/
 
 .recipelist-body, .recipedeets-body, .addnew-body{
@@ -21,7 +43,8 @@ form .fas div{
 }
 
 .dropdown-menuu{
-  display: none; position: absolute; z-index: 1; background: #f9f9f9; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: none; position: absolute; z-index: 1; background: #f9f9f9; 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 .dropdown:hover .dropdown-menuu{
   display: block;
@@ -34,6 +57,7 @@ form .fas div{
   transition: 0.3s ease;
   /*box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);*/
 }
+
 
 
 /*RECIPEDETAILSPAGE*/
@@ -68,10 +92,20 @@ form .fas div{
   .header-row {
     position: fixed !important;
     top: 0;
-    left: 0; z-index: 1000;
+    left: 0; z-index: 1000; right: 0;
+  }
+  .header-row nav{
+    padding-bottom: 0% !important;
+  }
+  .header-row ul {
+    padding-right: 5% !important; padding-left: 5% !important;
+    padding-top: 0% !important; padding-bottom: 0% !important;
+  }
+  .mode-toggle {
+    position: absolute; right: 10px; top: 10px;
   }
   body, .recipelist-body, .recipedeets-body, .addnew-body {
-    padding-top: 60px;
+    padding-top: 25px;
   }
   .navv{
     width: 100% !important;
@@ -85,4 +119,5 @@ form .fas div{
   .card{
     width:85% !important;
   }
+  
 }

@@ -15,12 +15,24 @@ import {useState, useEffect} from 'react';
 export default function App() {
 
   const storedRecipes = JSON.parse(localStorage.getItem('recipes')) || RECIPES || [];
-  const [recipes, setRecipes] = useState(storedRecipes);
+
+  const initializeRecipes = () => {
+  const source = storedRecipes || RECIPES || [];
+  return source.map(recipe => ({
+    ...recipe,
+    id: recipe.id?.toString().includes('-') ? recipe.id : `${Date.now()}-${Math.random()}` // Patch numeric or duplicate IDs
+  }));
+};
+
+  const [recipes, setRecipes] = useState(initializeRecipes);
+  
 
   useEffect(() => {
     //update localStorage whenever RECIPES change
     localStorage.setItem('recipes', JSON.stringify(recipes));
   }, [recipes]);
+
+  
 
   const [darkMode, setDarkMode] = useState(() => {
   return localStorage.getItem('darkMode') === 'true';

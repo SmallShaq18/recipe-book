@@ -53,10 +53,19 @@ function AddNewForm({recipes, setRecipes}) {
         // Continue to add the recipe anyway
   }
 
+  
+
+
           const newRecipe = {
             id: recipes.length + 1, name: nameVal, category: categoryVal, ingredients: ingredientsArr, 
             instructions: instructionsArr, pic: picVal, prep: prepVal, cook: cookVal, servings: servingsVal
           };
+
+          {isLocalStorageNearLimit(4.5) && (
+            toast.warning("Local storage is near its limit. Please delete some recipes to continue.")
+          )}
+
+
 
           setRecipes([...recipes, newRecipe]);
           toast.success("Recipe added successfully!");
@@ -64,11 +73,46 @@ function AddNewForm({recipes, setRecipes}) {
     navigate('/recipeList');
   }, 2000); // Wait 2s so toast can show
 }
+
+const MAX_IMAGE_SIZE = 500 * 1024; // 500KB
+const  handleImageUpload = (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  if (file.size > MAX_IMAGE_SIZE) {
+    alert("Image is too large. Please select one smaller than 500KB.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    const base64String = reader.result;
+    setPicVal(base64String); // this will update your `pic` field in JSON
+  };
+  reader.readAsDataURL(file);
+};
+
+function isLocalStorageNearLimit(thresholdMB = 4.5) {
+  let total = 0;
+  for (let key in localStorage) {
+    if (localStorage.hasOwnProperty(key)) {
+      let item = localStorage.getItem(key);
+      if (item) {
+        total += item.length * 2; // 2 bytes per character
+      }
+    }
+  }
+  const totalMB = total / (1024 * 1024); // Convert to MB
+  console.log(`Used: ${totalMB.toFixed(2)} MB`);
+  return totalMB >= thresholdMB;
+  
+}
+
     
     return(
 
        <>
-            <Link to="/recipeList" className="btn btn-outline-secondary btn-sm m-5"
+            <Link to="/recipeList" className="btn btn-outline-secondary btn-sm mt-5 ms-2"
                 onClick={(e) => {
                 e.preventDefault();
                 toast.info("Returning to recipe list...");
@@ -79,8 +123,8 @@ function AddNewForm({recipes, setRecipes}) {
        <div className="d-flex justify-content-center align-items-center">
             <form className="addnew-form">
 
-                <h3 className="m-3">ADD NEW RECIPE HERE</h3>
-                <h5 className="mx-3">Fill the form below to add a new recipe</h5>
+                <h3 className="m-3 ms-0">ADD NEW RECIPE HERE</h3>
+                <h5 className="mx-3 ms-0">Fill the form below to add a new recipe</h5>
                 <h5 className="mt-4 text-danger">Recipe Category</h5>
 
                 <div className="form-group row p-3">
@@ -132,9 +176,11 @@ function AddNewForm({recipes, setRecipes}) {
                 <div className="form-group row p-3">
                     <label className=" col-sm-3">Recipe Image:</label>
                     <div className="col-sm-9">
-                        <input type="name" value={picVal} className="form-control" id="pic" 
-                        onChange={(e) => setPicVal(e.target.value)} placeholder="ex: https://pixaby.com/coconut-rice/" required />
+                        <input type="file" accept="image/*" className="form-control" onChange={handleImageUpload}
+                         required />
                     </div>
+                    {picVal && <img src={picVal} alt="Preview" style={{ maxWidth: '100%', marginTop: '10px' }} />}
+
                 </div>
                 <div className="form-group row p-3">
                     <label className=" col-sm-3">Ingredients(please use new lines to separate ingredients):</label>

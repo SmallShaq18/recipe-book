@@ -44,7 +44,7 @@ function List({filteredRecipes, onDelete}){
             {filteredRecipes.length > 0 && (
                 <div className="row justify-content-center">
                 {filteredRecipes.map((recipe) => (
-                    <ListItems key={recipe.id} recipes={recipe} onDelete={onDelete} />
+                    <ListItems key={recipe.id || index} recipes={recipe} onDelete={onDelete} />
                 ))}
                 
                 </div>
@@ -68,12 +68,12 @@ function SearchBar({filterText, onFilterTextChange, onHandleCat}){
                 </button>
                 <div className="dropdown-menuu">
                     <ul className="list-unstyled p-3">
-                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('all')} >All</a></li>
-                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('breakfast')}>Breakfast</a></li>
-                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('lunch')}>Lunch</a></li>
-                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('dinner')}>Dinner</a></li>
-                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('snacks')}>Snacks</a></li>
-                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('dessert')}>Dessert</a></li>
+                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('all')} >All</a></li><hr/>
+                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('breakfast')}>Breakfast</a></li><hr/>
+                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('lunch')}>Lunch</a></li><hr/>
+                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('dinner')}>Dinner</a></li><hr/>
+                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('snacks')}>Snacks</a></li><hr/>
+                        <li className='dropdown-itemm'><a className="text-dark text-decoration-none fw-bold" href="#" onClick={() => onHandleCat('dessert')}>Dessert</a></li><hr/>
                     </ul>
                 </div>
              </div>
@@ -138,9 +138,9 @@ function RecipeList({recipes, setRecipes}){
     return(
         <>
         {/*<Layout />*/}
-        <h1 className='text-center mt-3'>RECIPE LIST</h1>
+        <h1 className='text-center my-3'>RECIPE LIST</h1>
         <SearchBar filterText={filterText} onFilterTextChange={setFilterText} onHandleCat={handleCategoryClick} />
-        <h4 className="mt-3 mx-5 px-5">CATEGORY: <i className="text-warning fw-bold text-capitalize">{category}</i></h4>
+        <h4 className="mt-3 ms-5 px-5">CATEGORY: <i className="text-warning fw-bold text-capitalize">{category}</i></h4>
         <p className="mx-5 px-5">Number of recipes: <i className='text-warning'>{filteredRecipes.length}</i></p>
         <List recipes={recipes} onDelete={handleDelete} onEdit={handleEdit} filterText={filterText} filteredRecipes={filteredRecipes} />
         <ToastContainer position="top-right" autoClose={3000} />
