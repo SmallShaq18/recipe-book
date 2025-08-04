@@ -14,18 +14,19 @@ export default function RecipeDetails({recipes}){
 function DetailItems({recipes}){
 
     const {recipeId} = useParams();
-    const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));  
+    const recipe = recipes.find(recipe => recipe.id === (recipeId)); 
+    console.log(recipe); 
 
     return(
 
     <div>
-        <Link to="/recipeList" className="btn btn-outline-secondary btn-sm mb-3">
+        <Link to="/recipeList" className="d-lg-none btn btn-outline-secondary btn-sm mb-3">
             ← Back to List
         </Link>
         <div className="row row-deets mb-5">
             <div className="col-md-4">
               <div>
-                <img src={`${recipe.pic}`} alt={recipe.name} className="img img-fluid img-deets" />
+                <img src={`${recipe.pic || "/images/recipe1.jpg"}`} alt={recipe.name} className="img img-fluid img-deets" />
               </div>
             </div>
             <div className="col-md-8 p-left text-dark">

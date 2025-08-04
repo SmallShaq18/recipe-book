@@ -112,7 +112,7 @@ function isLocalStorageNearLimit(thresholdMB = 4.5) {
     return(
 
        <>
-            <Link to="/recipeList" className="btn btn-outline-secondary btn-sm mt-5 ms-2"
+            <Link to="/recipeList" className="d-lg-none btn btn-outline-secondary btn-sm mt-5 ms-2"
                 onClick={(e) => {
                 e.preventDefault();
                 toast.info("Returning to recipe list...");
@@ -178,6 +178,7 @@ function isLocalStorageNearLimit(thresholdMB = 4.5) {
                     <div className="col-sm-9">
                         <input type="file" accept="image/*" className="form-control" onChange={handleImageUpload}
                          required />
+                         <p className='text-muted'>(image should be in JPG, PNG format and less than 500KB)</p>
                     </div>
                     {picVal && <img src={picVal} alt="Preview" style={{ maxWidth: '100%', marginTop: '10px' }} />}
 

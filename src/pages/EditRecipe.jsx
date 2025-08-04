@@ -20,7 +20,7 @@ export default function EditRecipe({recipes, setRecipes}) {
 function EditRecipeForm({recipes, setRecipes}) {
 
     const {recipeId} = useParams();
-    const recipesTE = recipes.find(recipe => recipe.id === parseInt(recipeId));
+    const recipesTE = recipes.find(recipe => recipe.id === recipeId);
 
     const [nameVal, setNameVal] = useState(recipesTE.name);
     const [categoryVal, setCategoryVal] = useState(recipesTE.category);
@@ -92,7 +92,7 @@ const  handleImageUpload = (e) => {
     return(
 
         <>
-        <Link to="/recipeList" className="btn btn-outline-secondary btn-sm mt-5 ms-2"
+        <Link to="/recipeList" className="d-lg-none btn btn-outline-secondary btn-sm mt-5 ms-2"
                 onClick={(e) => {
                 e.preventDefault();
                 toast.info("Returning to recipe list...");
