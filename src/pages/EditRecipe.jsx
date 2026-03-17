@@ -1,184 +1,227 @@
-import React, {useState} from 'react';
-import {useParams, useNavigate, Link} from 'react-router-dom';
-import { toast } from 'react-toastify';
-//import {RECIPES} from '../data.js';
-//import Layout from './Layout';
+import React from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useRecipes } from '../hooks/useRecipes.js';
+import { RecipeForm } from '../components/recipe/RecipeForm.jsx';
 
-export default function EditRecipe({recipes, setRecipes}) {
+export default function EditRecipe() {
+  const { recipeId } = useParams();
+  const { recipes, updateRecipe } = useRecipes();
+  const navigate = useNavigate();
+  const recipe = recipes.find(r => r.id === recipeId);
 
-    
-    return(
-
-        <div>
-         {/*<Layout />*/}
-         <EditRecipeForm recipes={recipes}  setRecipes={setRecipes} />
+  if (!recipe) {
+    return (
+      <div className="container d-flex align-items-center justify-content-center min-vh-100">
+        <div className="text-center p-5 rounded-4 shadow-sm bg-body-tertiary border">
+          <i className="bi bi-search display-1 text-secondary opacity-25 mb-4 d-block"></i>
+          <h2 className="fw-bold text-body">Recipe not found</h2>
+          <p className="text-secondary mb-4">The recipe you're looking for might have been moved or deleted.</p>
+          <button 
+            className="btn btn-primary rounded-pill px-4 shadow-sm" 
+            onClick={() => navigate('/recipes')}
+          >
+            <i className="bi bi-arrow-left me-2"></i>Back to Recipes
+          </button>
         </div>
-
+      </div>
     );
-}
-
-function EditRecipeForm({recipes, setRecipes}) {
-
-    const {recipeId} = useParams();
-    const recipesTE = recipes.find(recipe => recipe.id === recipeId);
-
-    const [nameVal, setNameVal] = useState(recipesTE.name);
-    const [categoryVal, setCategoryVal] = useState(recipesTE.category);
-    const [prepVal, setPrepVal] = useState(recipesTE.prep);
-    const [cookVal, setCookVal] = useState(recipesTE.cook);
-    const [servingsVal, setServingsVal] = useState(recipesTE.servings);
-    const [picVal, setPicVal] = useState(recipesTE.pic);
-    const [ingredientsVal, setIngredientsVal] = useState(recipesTE.ingredients);
-    const [instructionsVal, setInstructionsVal] = useState(recipesTE.instructions);
-
-    const navigate = useNavigate();
-    
-      function handleSaveEdit(e){
-
-        e.preventDefault();
-
-        const ingredientsArr = Array.isArray(ingredientsVal) ? ingredientsVal : 
-        ingredientsVal.split(/,|\n/).map((ingredient) => ingredient.trim());
-        
-        const instructionsArr = Array.isArray(instructionsVal) ? instructionsVal : 
-        instructionsVal.split(/,|\n/).map((instruction) => instruction.trim());
-        
-        if (nameVal.trim() !== "" &&  ingredientsArr.length > 0 && instructionsArr.length > 0 ) {
-
-          const index = recipes.findIndex((recipe) => recipe.id === parseInt(recipeId));
-
-          if (index !== -1){
-            const updatedRecipe = [...recipes];
-            updatedRecipe[index] = {
-                ...updatedRecipe[index], name: nameVal, category: categoryVal, ingredients: ingredientsArr, 
-                instructions: instructionsArr, pic: picVal, prep: prepVal, cook: cookVal, servings: servingsVal
-            };
-
-            setRecipes(updatedRecipe);
-          }
-
-        navigate('/recipeList');
-        }
-        toast.success("Recipe edited successfully!");
-    
-      }
-
-      function onCancelEdit(){
-
-        const confirmCancel = window.confirm(`All changes made will be discarded. Are you sure?`);
-        if (confirmCancel) {
-            navigate('/recipeList');
-        }
-      }
-
-      const MAX_IMAGE_SIZE = 500 * 1024; // 500KB
-const  handleImageUpload = (e) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-
-  if (file.size > MAX_IMAGE_SIZE) {
-    alert("Image is too large. Please select one smaller than 500KB.");
-    return;
   }
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    const base64String = reader.result;
-    setPicVal(base64String); // this will update your `pic` field in JSON
+  const handleSubmit = (recipeData) => {
+    updateRecipe(recipeId, recipeData);
+    // Success handling usually happens inside the hook/form, 
+    // but the UI transition feels better here.
   };
-  reader.readAsDataURL(file);
-};
-    
-    return(
 
-        <>
-        <Link to="/recipeList" className="d-lg-none btn btn-outline-secondary btn-sm mt-5 ms-2"
-                onClick={(e) => {
-                e.preventDefault();
-                toast.info("Returning to recipe list...");
-                setTimeout(() => { navigate('/recipeList'); }, 1000); // 1 second delay for the toast to show
-              }}>
-                ← Back to List
+  const handleCancel = () => {
+    navigate('/recipes');
+  };
+
+  return (
+    <div className="container py-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-lg-8 col-xl-7">
+          
+          {/* --- BREADCRUMB NAVIGATION --- */}
+          <nav className="mb-4">
+            <Link 
+              to="/recipes" 
+              className="text-decoration-none d-inline-flex align-items-center text-secondary link-primary transition-all"
+            >
+              <i className="bi bi-chevron-left me-1 small"></i>
+              <span className="small fw-medium uppercase tracking-wider">Back to Recipes</span>
             </Link>
-        <div className="d-flex justify-content-center align-items-center">
-            <form className="addnew-form">
+          </nav>
 
-                <h3 className="m-3">EDIT RECIPE HERE</h3>
-                <h5 className="mx-3">Fill the form below to edit the recipe</h5>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">Recipe Name:</label>
-                    <div className="col-sm-9">
-                        <input type="name" value={nameVal} className="form-control" id="name" placeholder="ex: coconut rice" 
-                        onChange={(e) => setNameVal(e.target.value)} required />
-                    </div>
-                </div>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">Dish Type:</label>
-                    <div className="col-sm-9">
-                        <select id="selectOption" name="selectOption" className="form-control" onChange={(e) => setCategoryVal(e.target.value)}>
-                            <option value="breakfast">Breakfast</option>
-                            <option value="lunch">Lunch</option>
-                            <option value="dinner">Dinner</option>
-                            <option value="snacks">Snacks</option>
-                            <option value="dessert">Dessert</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">Preparation Time:</label>
-                    <div className="col-sm-9">
-                        <input type="name" value={prepVal} className="form-control" id="prep-time" placeholder="ex: 45 mins"
-                        onChange={(e) => setPrepVal(e.target.value)}  />
-                    </div>
-                </div>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">Cooking Time:</label>
-                    <div className="col-sm-9">
-                        <input type="name" value={cookVal} className="form-control" id="cook-time" placeholder="ex: 1 hour"
-                        onChange={(e) => setCookVal(e.target.value)}  />
-                    </div>
-                </div>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">No. of Servings:</label>
-                    <div className="col-sm-9">
-                        <input type="name" value={servingsVal} className="form-control" id="servings" placeholder="ex: 4"
-                        onChange={(e) => setServingsVal(e.target.value)}  />
-                    </div>
-                </div>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">Recipe Image:</label>
-                    <div className="col-sm-9">
-                        {picVal && (
-  <div className="mb-3">
-    <label className="form-label text-muted">(Current Picture)</label>
-    <img src={picVal} alt="Recipe Preview" style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }} />
-  </div>
-)}
-                        <input type="file" accept="image/*" className="form-control" id="pic" 
-                        onChange={handleImageUpload} />
-                    </div>
-                </div>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">Ingredients(please use new lines to separate ingredients):</label>
-                    <div className="col-sm-9">
-                        <textarea value={ingredientsVal} placeholder="coconut, rice..." className="form-control" id="textareaInput1"
-                        onChange={(e) => setIngredientsVal(e.target.value)}  name="textareaInput" rows="5" required></textarea>
-                    </div>
-                </div>
-                <div className="form-group row p-3">
-                    <label className=" col-sm-3">Instructions(please use new lines to separate instructions):</label>
-                    <div className="col-sm-9">
-                       <textarea value={instructionsVal} placeholder="extract water from cocnut. wash the rice..." className="form-control" 
-                       onChange={(e) => setInstructionsVal(e.target.value)} id="textareaInput2" name="textareaInput" rows="5" required></textarea>
-                    </div>
-                </div>
-                <button onClick={handleSaveEdit} type="submit" className="btn bg-warning text-white fw-bold m-3">Save Changes</button>
-                <button onClick={onCancelEdit} type="submit" className="btn bg-warning text-white fw-bold m-3">Cancel</button>
+          {/* --- HEADER SECTION --- */}
+          <header className="mb-5">
+            <div className="d-flex align-items-center gap-3 mb-2">
+              <div className="bg-danger bg-opacity-10 p-3 rounded-4 shadow-sm">
+                <i className="bi bi-pencil-square fs-3 text-primary"></i>
+              </div>
+              <div>
+                <h1 className="display-6 fw-bold mb-0">Edit Recipe</h1>
+                <p className="text-secondary mb-0">Refining <span className=" fw-medium">"{recipe.name}"</span></p>
+              </div>
+            </div>
+          </header>
 
-            </form>
+          {/* --- FORM CONTAINER --- */}
+          <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
+            <div className="card-body p-4 p-md-5">
+              <RecipeForm
+                mode="edit"
+                recipe={recipe}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+              />
+            </div>
+          </div>
+
+          {/* --- HELPER FOOTER --- */}
+          <footer className="mt-4 text-center">
+            <p className="small text-secondary opacity-50">
+              <i className="bi bi-shield-check me-1"></i>
+              Changes are saved locally to your device
+            </p>
+          </footer>
+
         </div>
-        </>
-    );
+      </div>
 
+      <style>{`
+        .tracking-wider { letter-spacing: 0.05em; }
+        .uppercase { text-transform: uppercase; }
+        .transition-all { transition: all 0.2s ease; }
+        
+        /* Smooth scale-in animation for the form card */
+        .card {
+          animation: slideUp 0.4s ease-out;
+          background: transparent;
+          
+        }
+
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom focus for the back link */
+        .link-primary:hover {
+          color: var(--bs-primary) !important;
+          transform: translateX(-3px);
+        }
+      `}</style>
+    </div>
+  );
 }
-/**/
+
+/*import React from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useRecipes } from '../hooks/useRecipes.js';
+import { RecipeForm } from '../components/recipe/RecipeForm.jsx';
+
+export default function EditRecipe() {
+  const { recipeId } = useParams();
+  const { recipes, updateRecipe } = useRecipes();
+  const navigate = useNavigate();
+  const recipe = recipes.find(r => r.id === recipeId);
+
+  if (!recipe) {
+    return (
+      <div className="er-notfound">
+        <h2 className="er-notfound-title">Recipe not found</h2>
+        <button className="er-back-btn" onClick={() => navigate('/recipes')}>
+          ← Back to recipes
+        </button>
+        <style>{`
+          .er-notfound {
+            text-align: center;
+            padding: 80px 24px;
+          }
+          .er-notfound-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+          }
+          .er-back-btn {
+            padding: 10px 24px;
+            border: 0.5px solid rgba(150, 80, 30, 0.2);
+            border-radius: var(--radius-pill);
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: var(--brand);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+          }
+          .er-back-btn:hover { background: var(--brand-light); }
+        `}</style>
+      </div>
+    );
+  }
+
+  const handleSubmit = (recipeData) => {
+    updateRecipe(recipeId, recipeData);
+  };
+
+  const handleCancel = () => {
+    navigate('/recipes');
+  };
+
+  return (
+    <div className="er-root">
+      <div className="er-header">
+        <Link to="/recipes" className="er-back">← Recipes</Link>
+        <h1 className="er-page-title">Edit recipe</h1>
+        <p className="er-page-sub">"{recipe.name}"</p>
+      </div>
+
+      <div className="er-form-wrap">
+        <RecipeForm
+          mode="edit"
+          recipe={recipe}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+        />
+      </div>
+
+      <style>{`
+        .er-root { min-height: 100vh; padding-bottom: 64px; }
+        .er-header {
+          padding: 28px 48px 0;
+          margin-bottom: 32px;
+        }
+        .er-back {
+          display: inline-block;
+          font-size: 0.8125rem;
+          color: var(--brand-muted);
+          margin-bottom: 12px;
+          transition: color var(--transition-fast);
+        }
+        .er-back:hover { color: var(--brand); }
+        .er-page-title {
+          font-family: var(--font-display);
+          font-size: 1.75rem;
+          font-weight: 500;
+          letter-spacing: -0.02em;
+          margin-bottom: 4px;
+        }
+        .er-page-sub {
+          font-size: 0.875rem;
+          color: var(--brand-muted);
+          font-style: italic;
+        }
+        .er-form-wrap {
+          padding: 0 48px;
+          max-width: 688px;
+        }
+        @media (max-width: 640px) {
+          .er-header { padding: 20px 20px 0; }
+          .er-form-wrap { padding: 0 20px; }
+        }
+      `}</style>
+    </div>
+  );
+}*/
