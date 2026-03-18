@@ -21,19 +21,3 @@ export function useDarkMode() {
   return [darkMode, toggleDarkMode];
 }
 
-/*import { useState, useEffect } from 'react';
-
-export function useDarkMode() {
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('darkMode') === 'true';
-  });
-
-  useEffect(() => {
-    localStorage.setItem('darkMode', darkMode);
-    document.body.classList.toggle('dark-mode', darkMode);
-  }, [darkMode]);
-
-  const toggleDarkMode = () => setDarkMode(prev => !prev);
-
-  return [darkMode, toggleDarkMode];
-}*/

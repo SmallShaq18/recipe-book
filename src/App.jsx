@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { RecipeProvider } from './context/RecipeContext.jsx';
+import { RecipeProvider } from './context/RecipeProvider.jsx';
 import { useDarkMode } from './hooks/useDarkMode.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -94,49 +94,3 @@ export default function App() {
   );
 }
 
-/*import { Route, Routes } from 'react-router-dom';
-import { RecipeProvider } from './context/RecipeContext.jsx';
-import { useDarkMode } from './hooks/useDarkMode.js';
-import Layout from './pages/Layout.jsx';
-import Home from './pages/Home.jsx';
-import Recipes from './pages/Recipes.jsx';
-import SmartRecipes from './pages/SmartRecipes.jsx';
-import MealPlanner from './pages/MealPlanner.jsx';
-import RecipeDetails from './pages/RecipeDetails.jsx';
-import AddRecipe from './pages/AddRecipe.jsx';
-import EditRecipe from './pages/EditRecipe.jsx';
-import NoPage from './pages/NoPage.jsx';
-import './styles/global.css';
-import './styles/theme.css';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-function AppContent() {
-  const [darkMode, toggleDarkMode] = useDarkMode();
-
-  return (
-    <div className={darkMode ? "bg-dark text-light min-vh-100" : "bg-light text-dark min-vh-100"}>
-      <Routes>
-        <Route path="/" element={<Layout toggleDarkMode={toggleDarkMode} darkMode={darkMode} />}>
-          <Route index element={<Home />} />
-          <Route path="recipes" element={<Recipes />} />
-          <Route path="smart-recipes" element={<SmartRecipes />} />
-          <Route path="meal-planner" element={<MealPlanner />} />
-          <Route path="recipeDetails/:recipeId" element={<RecipeDetails />} />
-          <Route path="addRecipe" element={<AddRecipe />} />
-          <Route path="editRecipe/:recipeId" element={<EditRecipe />} />
-          <Route path="*" element={<NoPage />} />
-        </Route>
-      </Routes>
-      <ToastContainer position="top-right" autoClose={3000} />
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <RecipeProvider>
-      <AppContent />
-    </RecipeProvider>
-  );
-}*/

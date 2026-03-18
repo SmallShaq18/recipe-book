@@ -41,10 +41,10 @@ export function ShoppingList({ selectedRecipes = [], onClose }) {
     setChecked(next);
   };
 
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     const unchecked = items.filter(i => !checked.has(i)).join('\n');
     try {
-      //await navigator.clipboard.writeText(unchecked);
+      await navigator.clipboard.writeText(unchecked);
       toast.success('Shopping list copied!');
     } catch {
       const el = document.createElement('textarea');

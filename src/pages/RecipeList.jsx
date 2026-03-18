@@ -291,7 +291,13 @@ export default function RecipeList() {
           boxShadow: 'var(--shadow-card)',
           color: 'white',
         }}>
-        Select recipes and then click the 🛒 icon above to add to your shopping list. You have selected {selectedRecipes.size} recipes.
+        Select recipes and then click the 🛒 icon above to add to your shopping list.{' '} 
+        {selectedRecipes?.size > 0 && (
+        <span>
+          You have selected {selectedRecipes.size}{' '}
+          {selectedRecipes.size === 1 ? 'recipe' : 'recipes'}
+        </span>
+)}
       </div>
 
       {/* Smart Match Collapsible Panel */}

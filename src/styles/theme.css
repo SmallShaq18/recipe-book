@@ -31,9 +31,12 @@ body {
   background-color: var(--bg-color);
 }
 
-body {
-  color: var(--text-color);
-  background-color: var(--bg-color);
+.mm-bg-dark {
+  background-color: #130c0b;
+}
+
+.mm-bg-light{
+  background-color: #fff;
 }
 
 .card {

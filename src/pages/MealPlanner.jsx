@@ -482,7 +482,7 @@ export default function MealPlanner() {
         .mp-modal-backdrop {
           position: fixed;
           inset: 0;
-          background: rgba(26, 10, 0, 0.45);
+          background: rgba(26, 10, 0, 0.35);
           z-index: 500;
           display: flex;
           align-items: center;
@@ -638,7 +638,7 @@ export default function MealPlanner() {
           .mp-page-header { padding: 20px 16px 0; flex-wrap: wrap; gap: 12px; }
           .mp-progress-wrap { padding: 0 16px 16px; }
           .mp-grid { grid-template-columns: repeat(2, minmax(150px, 1fr)); padding: 0 16px; }
-          .mp-modal { max-height: 90vh; }
+          .mp-modal { max-height: 80vh; }
         }
       `}</style>
     </div>

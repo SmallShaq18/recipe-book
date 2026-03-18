@@ -102,7 +102,7 @@ const RecipeCard = memo(({ recipe, onDelete, index = 0 }) => {
         <div className="rc-footer">
           <div className="rc-tag-row">
             <span className="rc-dot" style={{ background: dotColor }} />
-            <span className="rc-tag">{recipe.category}</span>
+            <span className="rc-tag ">{recipe.category}</span>
           </div>
           <span className="rc-time">{recipe.cook || ''}</span>
 
@@ -255,7 +255,8 @@ const RecipeCard = memo(({ recipe, onDelete, index = 0 }) => {
         .rc-tag {
           font-size: 0.6875rem;
           background: var(--brand-light);
-          color: white;
+          color: var(--brand);
+          padding: 2px 8px;
           border-radius: 4px;
           padding: 2px 8px;
           text-transform: capitalize;
@@ -327,130 +328,3 @@ RecipeCard.displayName = 'RecipeCard';
 export { RecipeCard };
 
 
-/*import React, { memo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '../ui/Button.jsx';
-import { motion } from 'framer-motion';
-
-const RecipeCard = memo(({ recipe, onEdit, onDelete }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      className="recipe-card"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      whileHover={{
-        y: -8,
-        scale: 1.02,
-        transition: { duration: 0.2, ease: "easeOut" }
-      }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <motion.div
-        className="recipe-image-container"
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.3 }}
-      >
-        <img
-          src={recipe.pic || "/images/recipe1.jpg"}
-          alt={recipe.name}
-          className="recipe-image"
-          loading="lazy"
-        />
-
-        {/* Quick Actions Overlay *
-        <motion.div
-          className="quick-actions-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <div className="quick-actions">
-            <Link to={`/recipeDetails/${recipe.id}`}>
-              <motion.button
-                className="quick-action-btn view-btn"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FontAwesomeIcon icon={faEye} />
-                <span>View</span>
-              </motion.button>
-            </Link>
-            <motion.button
-              className="quick-action-btn edit-btn"
-              onClick={() => onEdit(recipe)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FontAwesomeIcon icon={faEdit} />
-              <span>Edit</span>
-            </motion.button>
-            <motion.button
-              className="quick-action-btn delete-btn"
-              onClick={() => onDelete(recipe.id)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-              <span>Delete</span>
-            </motion.button>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        className="recipe-card-content"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
-      >
-        <h3 className="recipe-card-title">{recipe.name}</h3>
-        <p className="recipe-card-description">
-          {recipe.instructions.slice(0, 2).join(' ')}...
-        </p>
-        <div className="recipe-card-meta">
-          <span className="recipe-card-category">{recipe.category}</span>
-          <span className="recipe-card-time">
-            <FontAwesomeIcon icon={faEdit} />
-            {recipe.instructions.length} steps
-          </span>
-        </div>
-
-        {/* Desktop Actions (hidden on mobile, shown in overlay) *
-        <div className="d-flex justify-content-between align-items-center mt-3 d-none d-md-flex">
-          <Link to={`/recipeDetails/${recipe.id}`}>
-            <Button variant="primary" size="small">
-              View Recipe
-            </Button>
-          </Link>
-          <div>
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => onEdit(recipe)}
-              className="me-1"
-            >
-              <FontAwesomeIcon icon={faEdit} />
-            </Button>
-            <Button
-              variant="danger"
-              size="small"
-              onClick={() => onDelete(recipe.id)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </Button>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-});
-
-RecipeCard.displayName = 'RecipeCard';
-
-export { RecipeCard };*/

@@ -79,7 +79,7 @@ export default function Layout({ toggleDarkMode, darkMode }) {
       </header>
 
       {/* Mobile menu */}
-      <div className={`rb-mobile-menu ${menuOpen ? 'open' : ''}`}>
+      <div className={`rb-mobile-menu ${menuOpen ? 'open' : ''} ${darkMode ? 'mm-bg-dark' : 'mm-bg-light'}`}>
         <Link to="/recipes" className="rb-mobile-link">Recipes</Link>
         <Link to="/meal-planner" className="rb-mobile-link">Meal Planner</Link>
         <Link to="/favourites" className="rb-mobile-link">Favourites</Link>
@@ -214,14 +214,14 @@ export default function Layout({ toggleDarkMode, darkMode }) {
         .rb-mobile-menu {
           display: none;
           flex-direction: column;
-          background: rgba(255, 255, 255, 0.8);
+          
           border-bottom: 0.5px solid rgba(150, 80, 30, 0.12);
           overflow: hidden;
           max-height: 0;
           transition: max-height var(--transition-base);
           z-index: 1000;
           position: fixed;
-          width: 97%;
+          width: 100%;
         }
         .rb-mobile-menu.open {
           max-height: 280px;

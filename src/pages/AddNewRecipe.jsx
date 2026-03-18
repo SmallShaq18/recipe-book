@@ -278,7 +278,7 @@ function AddNewForm({ recipes, setRecipes }) {
           background: var(--surface-card);
           font-family: var(--font-body);
           font-size: 0.9375rem;
-          color: inherit;
+          
           transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
         .af-input:focus {
